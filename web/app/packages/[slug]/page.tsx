@@ -86,16 +86,16 @@ export default async function PackageDetailPage({
       </div>
 
       {/* Hero Section */}
-      <div className="relative h-72 sm:h-96 w-full bg-stone-900">
+      <div className="relative h-72 sm:h-96 w-full bg-emerald-950 overflow-hidden">
         <img
           src={
             (pkg.imageUrl as string) ||
             "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=1600&auto=format&fit=crop"
           }
           alt={pkg.title as string}
-          className="w-full h-full object-cover opacity-60"
+          className="w-full h-full object-cover opacity-70"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/40 to-transparent flex items-end">
+        <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/95 via-emerald-950/40 to-transparent flex items-end">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-8 w-full">
             <span className="inline-block bg-emerald-700 text-white text-xs font-bold px-3 py-1 rounded-md mb-3 shadow">
               {durationTag}

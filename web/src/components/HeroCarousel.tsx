@@ -85,7 +85,7 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
 
   return (
     <div
-      className="relative min-h-[540px] sm:min-h-[640px] flex flex-col justify-between overflow-hidden bg-stone-950 text-white select-none touch-pan-y"
+      className="relative min-h-[540px] sm:min-h-[640px] flex flex-col justify-between overflow-hidden bg-gradient-to-b from-emerald-950 via-teal-950 to-emerald-950 text-white select-none touch-pan-y"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
       onTouchStart={handleTouchStart}
@@ -107,8 +107,8 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
                 alt={slide.heading}
                 className="w-full h-full object-cover"
               />
-              {/* Dark gradient overlay optimized for mobile readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-stone-950/60" />
+              {/* Lush emerald-tinted overlay for warm readability without stark black */}
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-emerald-950/40 to-teal-950/60" />
             </div>
           );
         })}

@@ -266,7 +266,7 @@ export default async function KeralaTravelLandingPage() {
                       alt={photo.caption || "Kerala Photo"}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-transparent to-transparent opacity-90" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent opacity-90" />
                     <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 text-white">
                       {photo.category && (
                         <span className="inline-block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-emerald-700 px-1.5 sm:px-2 py-0.5 rounded text-white mb-1">
