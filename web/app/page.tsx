@@ -2,6 +2,7 @@ import { client, urlFor } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { Header } from "@/components/Header";
 
 const HOME_DATA_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
@@ -135,65 +136,20 @@ export default async function KeralaTravelLandingPage() {
         </div>
       )}
 
-      {/* 2. HEADER */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2.5 sm:gap-3 min-w-0">
-            {logoSrc ? (
-              <img
-                src={logoSrc}
-                alt={logoText}
-                className="h-9 sm:h-11 w-auto max-w-[140px] sm:max-w-[180px] object-contain bg-transparent shrink-0"
-              />
-            ) : (
-              <div className="h-9 w-9 sm:h-10 sm:w-10 rounded-xl bg-emerald-700 text-white font-bold flex items-center justify-center text-lg sm:text-xl shadow shrink-0">
-                {logoIcon}
-              </div>
-            )}
-            <div className="truncate">
-              <span className="font-extrabold text-sm sm:text-lg tracking-tight text-stone-900 block truncate">
-                {logoText}
-              </span>
-              {logoTagline && (
-                <span className="text-[9px] sm:text-[10px] text-emerald-700 font-bold uppercase tracking-wider block -mt-0.5 truncate">
-                  {logoTagline}
-                </span>
-              )}
-            </div>
-          </Link>
-
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            {navItems.map((item: { label: string; link: string }, idx: number) => (
-              <Link
-                key={idx}
-                href={item.link}
-                className="text-sm font-semibold text-stone-600 hover:text-emerald-700 transition-colors"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-
-          {/* WhatsApp Header CTA */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20interested%20in%20Kerala%20tour%20packages.`}
-              target="_blank"
-              rel="noreferrer"
-              className="px-3 sm:px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow flex items-center gap-1.5"
-            >
-              <span className="hidden xs:inline">WhatsApp</span>
-              <span>💬</span>
-            </a>
-          </div>
-        </div>
-      </header>
+      {/* 2. RESPONSIVE HEADER WITH MOBILE COLLAPSE MENU */}
+      <Header
+        logoSrc={logoSrc}
+        logoIcon={logoIcon}
+        logoText={logoText}
+        logoTagline={logoTagline}
+        navItems={navItems}
+        whatsappNumber={cleanWhatsapp}
+      />
 
       {/* 3. HERO CAROUSEL WITH TOUCH SWIPE & MOBILE INQUIRY BOX */}
       <HeroCarousel slides={heroSlides} whatsappNumber={cleanWhatsapp} />
 
-      {/* 4. TOP KERALA DESTINATIONS (TOUCH SCROLLABLE ON MOBILE) */}
+      {/* 4. TOP KERALA DESTINATIONS */}
       {destinations.length > 0 && (
         <section className="bg-white border-b border-stone-200 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -349,7 +305,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 7. PHOTO GALLERY (2-COLUMN GRID ON MOBILE) */}
+      {/* 7. PHOTO GALLERY */}
       {galleryItems.length > 0 && (
         <section className="py-12 sm:py-20 bg-stone-100 border-b border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
