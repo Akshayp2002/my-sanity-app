@@ -2,52 +2,20 @@ import React from "react";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 export default function AboutPage() {
-  const whatsappPhone = "919876543210";
+  const whatsappPhone = "+919876543210";
+  const cleanWhatsapp = whatsappPhone.replace(/[^0-9]/g, "");
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans">
-      {/* Top Notification Bar */}
-      <div className="bg-emerald-900 text-emerald-100 text-xs py-2 px-6 text-center font-medium">
-        🌴 Kerala Tourism Approved Destination Management Company • Registered Office in Ernakulam, Kochi
-      </div>
-
-      {/* Header */}
-      <header className="bg-white border-b border-stone-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-700 text-white font-bold flex items-center justify-center text-xl shadow">
-              🌴
-            </div>
-            <div>
-              <span className="font-extrabold text-lg text-stone-900 tracking-tight block">Kerala Green Haven</span>
-              <span className="text-[10px] text-emerald-700 font-bold uppercase tracking-widest block -mt-1">Tours & Travels • Kochi, Kerala</span>
-            </div>
-          </a>
-
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="/" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">Home</a>
-            <a href="/packages" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">Kerala Packages</a>
-            <a href="/about" className="text-sm font-bold text-emerald-700 border-b-2 border-emerald-700 pb-1">About Us</a>
-            <a href="/contact" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">Contact Us</a>
-          </nav>
-
-          <a
-            href={`https://wa.me/${whatsappPhone}?text=Hi!%20I%20want%20to%20know%20more%20about%20your%20Kerala%20tours.`}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow"
-          >
-            <WhatsAppIcon className="w-4 h-4 fill-current" />
-            <span>Chat on WhatsApp</span>
-          </a>
-        </div>
-      </header>
-
+    <div className="text-stone-900 font-sans">
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-emerald-900 via-teal-900 to-emerald-950 text-white py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto">
-          <span className="text-xs uppercase font-bold tracking-widest text-amber-300 mb-2 block">15+ Years Local Expertise</span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">About Kerala Green Haven Tours</h1>
+          <span className="text-xs uppercase font-bold tracking-widest text-amber-300 mb-2 block">
+            15+ Years Local Expertise
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+            About Kerala Green Haven Tours
+          </h1>
           <p className="text-emerald-100 text-base font-normal">
             Your trusted local travel partner in Kochi, Kerala. We specialize in authentic holiday experiences, luxury houseboats, and customized family & honeymoon trips.
           </p>
@@ -55,7 +23,7 @@ export default function AboutPage() {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-6 py-16 space-y-16">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-16 space-y-16">
         {/* Story Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div>
@@ -126,7 +94,7 @@ export default function AboutPage() {
             Get a custom day-by-day itinerary and transparent price quotation tailored to your dates and budget.
           </p>
           <a
-            href={`https://wa.me/${whatsappPhone}?text=Hi!%20I%20would%20like%20to%20plan%20a%20Kerala%20trip.`}
+            href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20would%20like%20to%20plan%20a%20Kerala%20trip.`}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm rounded-xl transition-all shadow"
@@ -136,18 +104,6 @@ export default function AboutPage() {
           </a>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-stone-200 py-10 text-center text-xs text-stone-500">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p>© 2026 Kerala Green Haven Tours & Travels, Kochi, Kerala, India.</p>
-          <div className="flex gap-6">
-            <a href="/" className="hover:text-emerald-700">Home</a>
-            <a href="/packages" className="hover:text-emerald-700">Packages</a>
-            <a href="/contact" className="hover:text-emerald-700">Contact Us</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

@@ -1,29 +1,15 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { HeroCarousel } from "@/components/HeroCarousel";
-import { Header } from "@/components/Header";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
-const HOME_DATA_QUERY = defineQuery(`{
+const HOME_PAGE_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
-    showNotificationBar,
-    topNotificationBar,
-    logoImage,
-    logoImageUrl,
-    logoIcon,
-    logoText,
-    logoTagline,
-    whatsappNumber,
-    navItems[]{ label, link },
     ctaTitle,
     ctaDescription,
     ctaButtonText,
-    footerAboutText,
-    footerOfficeAddress,
-    footerPhone,
-    footerEmail,
-    footerCopyright
+    whatsappNumber
   },
   "heroSlides": *[_type == "heroSlide"] | order(order asc){
     _id,
@@ -80,36 +66,11 @@ const HOME_DATA_QUERY = defineQuery(`{
 const options = { next: { revalidate: 60 } };
 
 export default async function KeralaTravelLandingPage() {
-  const data = await client.fetch<SanityDocument | null>(HOME_DATA_QUERY, {}, options);
+  const data = await client.fetch<SanityDocument | null>(HOME_PAGE_QUERY, {}, options);
 
   const settings = data?.settings;
-
-  // Toggle & content for top notification bar
-  const showNotification =
-    settings?.showNotificationBar !== false &&
-    Boolean(settings?.topNotificationBar && settings.topNotificationBar.trim().length > 0);
-  const topNotification = settings?.topNotificationBar || "";
-
-  // Transparent PNG / SVG logo support
-  const logoSrc = settings?.logoImage
-    ? urlFor(settings.logoImage).url()
-    : settings?.logoImageUrl || null;
-
-  const logoIcon = settings?.logoIcon || "🌴";
-  const logoText = settings?.logoText || "Kerala Green Haven Tours";
-  const logoTagline = settings?.logoTagline || "Tours & Travels • Kochi, Kerala";
-
   const rawWhatsapp = settings?.whatsappNumber || "+919876543210";
   const cleanWhatsapp = rawWhatsapp.replace(/[^0-9]/g, "");
-
-  const navItems = settings?.navItems?.length
-    ? settings.navItems
-    : [
-        { label: "Home", link: "/" },
-        { label: "Kerala Packages", link: "/packages" },
-        { label: "About Us", link: "/about" },
-        { label: "Contact Us", link: "/contact" },
-      ];
 
   const heroSlides = data?.heroSlides || [];
   const destinations = data?.destinations || [];
@@ -119,38 +80,12 @@ export default async function KeralaTravelLandingPage() {
   const testimonials = data?.testimonials || [];
   const faqs = data?.faqs || [];
 
-  const footerAbout =
-    settings?.footerAboutText ||
-    "Authorized local travel agency in Kochi, Kerala. Specializing in customized Kerala tours, houseboats, and cab packages.";
-  const footerAddress = settings?.footerOfficeAddress || "Ernakulam, Kochi, Kerala, India";
-  const footerPhone = settings?.footerPhone || "+91 98765 43210 / +91 484 2345678";
-  const footerEmail = settings?.footerEmail || "info@keralagreenhaventours.com";
-  const footerCopyright =
-    settings?.footerCopyright || "© 2026 Kerala Green Haven Tours & Travels, Kochi, Kerala, India.";
-
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans selection:bg-emerald-700 selection:text-white">
-      {/* 1. TOP NOTIFICATION BAR (HIDDEN IF EMPTY OR DISABLED IN SANITY) */}
-      {showNotification && (
-        <div className="bg-emerald-900 text-emerald-100 text-[11px] sm:text-xs py-2 px-4 text-center font-medium leading-tight">
-          {topNotification}
-        </div>
-      )}
-
-      {/* 2. RESPONSIVE HEADER WITH MOBILE COLLAPSE MENU */}
-      <Header
-        logoSrc={logoSrc}
-        logoIcon={logoIcon}
-        logoText={logoText}
-        logoTagline={logoTagline}
-        navItems={navItems}
-        whatsappNumber={cleanWhatsapp}
-      />
-
-      {/* 3. HERO CAROUSEL WITH TOUCH SWIPE & MOBILE INQUIRY BOX */}
+    <div className="text-stone-900 font-sans selection:bg-emerald-700 selection:text-white">
+      {/* 1. HERO CAROUSEL WITH TOUCH SWIPE & MOBILE INQUIRY BOX */}
       <HeroCarousel slides={heroSlides} whatsappNumber={cleanWhatsapp} />
 
-      {/* 4. TOP KERALA DESTINATIONS */}
+      {/* 2. TOP KERALA DESTINATIONS */}
       {destinations.length > 0 && (
         <section className="bg-white border-b border-stone-200 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -175,7 +110,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 5. FEATURED TOUR PACKAGES */}
+      {/* 3. FEATURED TOUR PACKAGES */}
       {packages.length > 0 && (
         <section id="packages" className="py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-12">
@@ -278,7 +213,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 6. KERALA EXPERIENCES */}
+      {/* 4. KERALA EXPERIENCES */}
       {experiences.length > 0 && (
         <section className="py-12 sm:py-20 bg-white border-y border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -306,7 +241,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 7. PHOTO GALLERY */}
+      {/* 5. PHOTO GALLERY */}
       {galleryItems.length > 0 && (
         <section className="py-12 sm:py-20 bg-stone-100 border-b border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -348,7 +283,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 8. GUEST TESTIMONIALS */}
+      {/* 6. GUEST TESTIMONIALS */}
       {testimonials.length > 0 && (
         <section className="py-12 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-16">
@@ -395,7 +330,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 9. FREQUENTLY ASKED QUESTIONS */}
+      {/* 7. FREQUENTLY ASKED QUESTIONS */}
       {faqs.length > 0 && (
         <section className="py-12 sm:py-20 bg-white border-t border-stone-200">
           <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -422,7 +357,7 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 10. CALL TO ACTION BANNER */}
+      {/* 8. CALL TO ACTION BANNER */}
       <section className="py-12 sm:py-20 max-w-6xl mx-auto px-4 sm:px-6">
         <div className="bg-gradient-to-r from-emerald-800 to-teal-900 rounded-2xl sm:rounded-3xl p-6 sm:p-14 text-white relative overflow-hidden shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 sm:gap-8">
           <div className="max-w-xl text-center md:text-left space-y-2 sm:space-y-3">
@@ -456,110 +391,6 @@ export default async function KeralaTravelLandingPage() {
           </div>
         </div>
       </section>
-
-      {/* 11. FOOTER */}
-      <footer className="bg-white border-t border-stone-200 pt-12 sm:pt-16 pb-8 sm:pb-12 text-stone-600 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-8 sm:gap-10 mb-8 sm:mb-12">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              {logoSrc ? (
-                <img
-                  src={logoSrc}
-                  alt={logoText}
-                  className="h-8 w-auto max-w-[140px] object-contain bg-transparent"
-                />
-              ) : (
-                <div className="h-7 w-7 rounded-lg bg-emerald-700 flex items-center justify-center font-bold text-white text-sm">
-                  {logoIcon}
-                </div>
-              )}
-              <span className="font-extrabold text-base text-stone-900 tracking-tight">{logoText}</span>
-            </div>
-            <p className="text-stone-500 leading-relaxed text-xs">{footerAbout}</p>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-stone-900 text-xs uppercase tracking-wider mb-3 sm:mb-4">Popular Pages</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/" className="hover:text-emerald-700 transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/packages" className="hover:text-emerald-700 transition-colors">
-                  Kerala Packages
-                </Link>
-              </li>
-              <li>
-                <Link href="/about" className="hover:text-emerald-700 transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="hover:text-emerald-700 transition-colors">
-                  Contact Us
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-stone-900 text-xs uppercase tracking-wider mb-3 sm:mb-4">
-              Kerala Destinations
-            </h4>
-            <ul className="space-y-2">
-              {destinations.slice(0, 4).map((dest: { name: string; link: string }, idx: number) => (
-                <li key={idx}>
-                  <Link href={dest.link || "/packages"} className="hover:text-emerald-700 transition-colors">
-                    {dest.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="font-bold text-stone-900 text-xs uppercase tracking-wider mb-3 sm:mb-4">
-              Contact Kerala Office
-            </h4>
-            {footerAddress && <p className="text-stone-600 font-bold mb-1">📍 {footerAddress}</p>}
-            {footerPhone && (
-              <p className="text-stone-600 mb-1">
-                📞 <a href={`tel:${footerPhone.replace(/[^0-9+]/g, "")}`}>{footerPhone}</a>
-              </p>
-            )}
-            {footerEmail && (
-              <p className="text-emerald-700 font-semibold mb-3">
-                ✉️ <a href={`mailto:${footerEmail}`}>{footerEmail}</a>
-              </p>
-            )}
-            <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20want%20to%20plan%20a%20Kerala%20trip.`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] text-white font-bold rounded text-[11px]"
-            >
-              <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
-              <span>Quick WhatsApp</span>
-            </a>
-          </div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 border-t border-stone-100 pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4 text-stone-400 text-center sm:text-left">
-          <p>{footerCopyright}</p>
-          <div className="flex gap-6 text-stone-500">
-            <a
-              href="http://localhost:3333"
-              target="_blank"
-              rel="noreferrer"
-              className="text-emerald-700 font-bold hover:underline"
-            >
-              Sanity Studio
-            </a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

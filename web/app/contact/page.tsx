@@ -15,7 +15,7 @@ const CONTACT_PAGE_QUERY = defineQuery(
   }`
 );
 
-const options = { next: { revalidate: 10 } };
+const options = { next: { revalidate: 60 } };
 
 export default async function ContactPage() {
   const contactData = await client.fetch<SanityDocument | null>(CONTACT_PAGE_QUERY, {}, options);
@@ -32,49 +32,16 @@ export default async function ContactPage() {
   const cleanWhatsapp = whatsappNumber.replace(/[^0-9]/g, "");
 
   return (
-    <div className="min-h-screen bg-stone-50 text-stone-900 font-sans">
-      {/* Top Bar */}
-      <div className="bg-emerald-900 text-emerald-100 text-xs py-2 px-6 text-center font-medium">
-        🌴 Authorized Local Kerala Tour Operator • Govt Approved Reg. No: KTD-2026-981
-      </div>
-
-      {/* Header */}
-      <header className="bg-white border-b border-stone-200 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-700 text-white font-bold flex items-center justify-center text-xl shadow">
-              🌴
-            </div>
-            <div>
-              <span className="font-extrabold text-lg text-stone-900 tracking-tight block">Kerala Green Haven</span>
-              <span className="text-[10px] text-emerald-700 font-bold uppercase tracking-widest block -mt-1">Tours & Travels • Kochi, Kerala</span>
-            </div>
-          </a>
-
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="/" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">Home</a>
-            <a href="/packages" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">Kerala Packages</a>
-            <a href="/about" className="text-sm font-semibold text-stone-600 hover:text-emerald-700">About Us</a>
-            <a href="/contact" className="text-sm font-bold text-emerald-700 border-b-2 border-emerald-700 pb-1">Contact Us</a>
-          </nav>
-
-          <a
-            href={`https://wa.me/${cleanWhatsapp}?text=Hi%2C%20I%20want%20to%20plan%20a%20Kerala%20trip.`}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow"
-          >
-            <WhatsAppIcon className="w-4 h-4 fill-current" />
-            <span>WhatsApp Us Direct</span>
-          </a>
-        </div>
-      </header>
-
+    <div className="text-stone-900 font-sans">
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-emerald-800 to-teal-900 text-white py-14 px-6 text-center">
         <div className="max-w-3xl mx-auto">
-          <span className="text-xs uppercase font-bold tracking-widest text-amber-300 mb-2 block">We Are Located in Kochi, Kerala</span>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">Contact Our Local Kerala Travel Experts</h1>
+          <span className="text-xs uppercase font-bold tracking-widest text-amber-300 mb-2 block">
+            We Are Located in Kochi, Kerala
+          </span>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight mb-4">
+            Contact Our Local Kerala Travel Experts
+          </h1>
           <p className="text-emerald-100 text-base font-normal">
             Have questions or need a customized Kerala itinerary for Munnar, Alleppey houseboats, Wayanad, or Kovalam? Call us or send a message!
           </p>
@@ -82,42 +49,67 @@ export default async function ContactPage() {
       </section>
 
       {/* Main Content Grid */}
-      <main className="max-w-7xl mx-auto px-6 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
-        {/* Left Column: Office Info & Direct Contacts */}
-        <div className="lg:col-span-5 space-y-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-16 grid grid-cols-1 lg:grid-cols-12 gap-12">
+        {/* Left Column: Contact Cards */}
+        <div className="lg:col-span-5 space-y-6">
           <div className="bg-white p-8 rounded-2xl border border-stone-200 shadow-sm space-y-6">
-            <h2 className="text-xl font-extrabold text-stone-900 border-b border-stone-100 pb-4">Our Head Office</h2>
+            <h2 className="text-xl font-extrabold text-stone-900 border-b border-stone-100 pb-4">
+              Registered Office Information
+            </h2>
 
-            <div className="flex gap-4 items-start">
-              <span className="text-2xl p-2.5 bg-emerald-50 text-emerald-700 rounded-xl">📍</span>
+            {/* Office Address */}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+                📍
+              </div>
               <div>
-                <h3 className="text-xs font-bold uppercase text-stone-500 tracking-wider">Address</h3>
-                <p className="text-stone-800 text-sm font-medium mt-1 leading-relaxed">{officeAddress}</p>
+                <p className="text-xs font-bold text-stone-500 uppercase tracking-wider">Office Address</p>
+                <p className="text-sm font-semibold text-stone-800 mt-0.5 leading-relaxed">
+                  {officeAddress}
+                </p>
               </div>
             </div>
 
-            <div className="flex gap-4 items-start">
-              <span className="text-2xl p-2.5 bg-emerald-50 text-emerald-700 rounded-xl">📞</span>
+            {/* Phone Numbers */}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+                📞
+              </div>
               <div>
-                <h3 className="text-xs font-bold uppercase text-stone-500 tracking-wider">Phone Calls</h3>
-                <p className="text-stone-900 text-sm font-bold mt-1">{phonePrimary}</p>
-                <p className="text-stone-600 text-xs">{phoneSecondary} (Landline)</p>
+                <p className="text-xs font-bold text-stone-500 uppercase tracking-wider">Direct Phone Support</p>
+                <p className="text-sm font-semibold text-stone-800 mt-0.5">
+                  <a href={`tel:${phonePrimary.replace(/[^0-9+]/g, "")}`} className="hover:text-emerald-700">
+                    {phonePrimary}
+                  </a>
+                  {" / "}
+                  <a href={`tel:${phoneSecondary.replace(/[^0-9+]/g, "")}`} className="hover:text-emerald-700">
+                    {phoneSecondary}
+                  </a>
+                </p>
               </div>
             </div>
 
-            <div className="flex gap-4 items-start">
-              <span className="text-2xl p-2.5 bg-emerald-50 text-emerald-700 rounded-xl">✉️</span>
+            {/* Email Address */}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+                ✉️
+              </div>
               <div>
-                <h3 className="text-xs font-bold uppercase text-stone-500 tracking-wider">Email Inquiry</h3>
-                <p className="text-emerald-700 font-semibold text-sm mt-1">{email}</p>
+                <p className="text-xs font-bold text-stone-500 uppercase tracking-wider">Official Email</p>
+                <p className="text-sm font-semibold text-emerald-700 mt-0.5">
+                  <a href={`mailto:${email}`}>{email}</a>
+                </p>
               </div>
             </div>
 
-            <div className="flex gap-4 items-start">
-              <span className="text-2xl p-2.5 bg-emerald-50 text-emerald-700 rounded-xl">⏰</span>
+            {/* Working Hours */}
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center text-lg shrink-0">
+                🕒
+              </div>
               <div>
-                <h3 className="text-xs font-bold uppercase text-stone-500 tracking-wider">Working Hours</h3>
-                <p className="text-stone-700 text-xs mt-1">{businessHours}</p>
+                <p className="text-xs font-bold text-stone-500 uppercase tracking-wider">Working Hours</p>
+                <p className="text-sm text-stone-700 mt-0.5">{businessHours}</p>
               </div>
             </div>
           </div>
@@ -151,7 +143,9 @@ export default async function ContactPage() {
             <form className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Your Full Name *</label>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    Your Full Name *
+                  </label>
                   <input
                     type="text"
                     required
@@ -160,7 +154,9 @@ export default async function ContactPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Phone / WhatsApp Number *</label>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    WhatsApp / Phone Number *
+                  </label>
                   <input
                     type="tel"
                     required
@@ -172,57 +168,50 @@ export default async function ContactPage() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Email Address</label>
-                  <input
-                    type="email"
-                    placeholder="e.g. name@example.com"
-                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600"
-                  />
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    Preferred Destination
+                  </label>
+                  <select className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600 cursor-pointer">
+                    <option>Munnar & Alleppey Combo</option>
+                    <option>Complete Kerala (Munnar, Thekkady, Alleppey, Kovalam)</option>
+                    <option>Alleppey Houseboat Exclusive Cruise</option>
+                    <option>Wayanad Rainforest & Waterfalls</option>
+                    <option>Kovalam & Poovar Beach Island</option>
+                  </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Destinations Interested</label>
-                  <select className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600 cursor-pointer">
-                    <option>Munnar & Alleppey Houseboat (4D/3N)</option>
-                    <option>Complete Kerala Panorama (7D/6N)</option>
-                    <option>Wayanad Hill Station & Waterfalls</option>
-                    <option>Kovalam Beach & Trivandrum</option>
-                    <option>Customized Kerala Package</option>
-                  </select>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    Expected Travel Month / Date
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. November 2026 / 15th Oct"
+                    className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600"
+                  />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">Travel Details / Message</label>
+                <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                  Special Requirements / Number of Travellers
+                </label>
                 <textarea
                   rows={4}
-                  placeholder="Tell us about number of adults/children, expected travel dates, or budget preferences..."
-                  className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600"
-                ></textarea>
+                  placeholder="Tell us about your group size (Adults / Children), hotel category (3-star, 4-star, 5-star resort), pickup airport, etc."
+                  className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-xl text-sm focus:outline-none focus:border-emerald-600 resize-none"
+                />
               </div>
 
               <button
-                type="submit"
-                className="w-full py-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm tracking-wide transition-all shadow-md"
+                type="button"
+                className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm uppercase tracking-wider rounded-xl transition-all shadow-md"
               >
-                Submit Inquiry to Local Team
+                Submit Tour Inquiry →
               </button>
             </form>
           </div>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="bg-white border-t border-stone-200 py-10 text-center text-xs text-stone-500">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p>© 2026 Kerala Green Haven Tours & Travels. All rights reserved.</p>
-          <div className="flex gap-6">
-            <a href="/" className="hover:text-emerald-700">Home</a>
-            <a href="/packages" className="hover:text-emerald-700">Packages</a>
-            <a href="/about" className="hover:text-emerald-700">About Us</a>
-            <a href="http://localhost:3333" target="_blank" rel="noreferrer" className="text-emerald-700 font-bold">Sanity Studio</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
