@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 interface NavItem {
   label: string;
@@ -84,14 +85,14 @@ export function Header({
             href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20interested%20in%20Kerala%20tour%20packages.`}
             target="_blank"
             rel="noreferrer"
-            className="px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow flex items-center gap-1.5"
+            className="px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow flex items-center gap-2"
           >
+            <WhatsAppIcon className="w-4 h-4 fill-current" />
             <span>WhatsApp</span>
-            <span>💬</span>
           </a>
         </div>
 
-        {/* Mobile Hamburger Menu Button (Replaces header WhatsApp button on mobile) */}
+        {/* Mobile Hamburger Menu Button */}
         <div className="flex md:hidden items-center">
           <button
             type="button"
@@ -139,8 +140,8 @@ export function Header({
               onClick={() => setMobileMenuOpen(false)}
               className="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm transition-all shadow text-center flex items-center justify-center gap-2"
             >
+              <WhatsAppIcon className="w-4 h-4 fill-current" />
               <span>Chat on WhatsApp</span>
-              <span>💬</span>
             </a>
           </div>
         </div>

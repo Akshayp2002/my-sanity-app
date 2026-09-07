@@ -1,5 +1,6 @@
 import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 const CONTACT_PAGE_QUERY = defineQuery(
   `*[_type == "contactPage"][0]{
@@ -63,7 +64,8 @@ export default async function ContactPage() {
             rel="noreferrer"
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow"
           >
-            💬 WhatsApp Us Direct
+            <WhatsAppIcon className="w-4 h-4 fill-current" />
+            <span>WhatsApp Us Direct</span>
           </a>
         </div>
       </header>
@@ -130,10 +132,10 @@ export default async function ContactPage() {
               href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20want%20to%20plan%20a%20Kerala%20holiday%20trip.`}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 px-6 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm rounded-xl transition-all shadow-md"
+              className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm rounded-xl transition-all shadow-md"
             >
+              <WhatsAppIcon className="w-5 h-5 fill-current" />
               <span>Chat Directly on WhatsApp</span>
-              <span>💬</span>
             </a>
           </div>
         </div>

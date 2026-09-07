@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 const PACKAGE_DETAIL_QUERY = defineQuery(
   `*[_type == "tourPackage" && (slug.current == $slug || _id == $slug)][0]{
@@ -264,7 +265,8 @@ export default async function PackageDetailPage({
             rel="noreferrer"
             className="hidden sm:inline-flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow"
           >
-            💬 Inquire Package on WhatsApp
+            <WhatsAppIcon className="w-4 h-4 fill-current" />
+            <span>Inquire on WhatsApp</span>
           </a>
         </div>
       </header>
@@ -403,8 +405,8 @@ export default async function PackageDetailPage({
                   rel="noreferrer"
                   className="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-sm tracking-wide transition-all shadow-md"
                 >
+                  <WhatsAppIcon className="w-5 h-5 fill-current" />
                   <span>Book / Inquire on WhatsApp</span>
-                  <span>💬</span>
                 </a>
 
                 <a

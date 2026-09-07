@@ -3,6 +3,7 @@ import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { Header } from "@/components/Header";
+import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 
 const HOME_DATA_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
@@ -443,8 +444,8 @@ export default async function KeralaTravelLandingPage() {
               rel="noreferrer"
               className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center gap-2 min-h-[44px]"
             >
+              <WhatsAppIcon className="w-4 h-4 fill-current" />
               <span>{settings?.ctaButtonText || "Chat on WhatsApp"}</span>
-              <span>💬</span>
             </a>
             <Link
               href="/contact"
@@ -539,8 +540,8 @@ export default async function KeralaTravelLandingPage() {
               rel="noreferrer"
               className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] text-white font-bold rounded text-[11px]"
             >
+              <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
               <span>Quick WhatsApp</span>
-              <span>💬</span>
             </a>
           </div>
         </div>
