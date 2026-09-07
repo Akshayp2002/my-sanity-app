@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { urlFor } from "@/sanity/client";
 
 export interface SlideItem {
@@ -18,7 +18,7 @@ interface HeroCarouselProps {
 }
 
 export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroCarouselProps) {
-  // Default single static slide (No multiple dummy images)
+  // Single fallback slide
   const defaultSlides: SlideItem[] = [
     {
       badge: "🌴 Govt. Approved Local Kerala Operator",
@@ -30,14 +30,14 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
     },
   ];
 
-  // If user configured slides in Sanity, use them; otherwise use the single default slide
   const validSlides = slides && slides.length > 0 ? slides : defaultSlides;
   const isMultiple = validSlides.length > 1;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const touchStartX = useRef<number | null>(null);
 
-  // Automatic slide transition every 5 seconds ONLY if multiple slides were added in Sanity
+  // Automatic slide transition every 5 seconds ONLY if multiple slides
   useEffect(() => {
     if (!isMultiple || isPaused) return;
 
@@ -61,11 +61,34 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
     return slide.imageUrl || defaultSlides[0].imageUrl;
   };
 
+  // Mobile Touch Swipe Handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null || !isMultiple) return;
+    const touchEndX = e.changedTouches[0].clientX;
+    const diffX = touchStartX.current - touchEndX;
+
+    // Swipe threshold 40px
+    if (diffX > 40) {
+      // Swiped left -> next slide
+      setCurrentIndex((prev) => (prev + 1) % validSlides.length);
+    } else if (diffX < -40) {
+      // Swiped right -> prev slide
+      setCurrentIndex((prev) => (prev - 1 + validSlides.length) % validSlides.length);
+    }
+    touchStartX.current = null;
+  };
+
   return (
     <div
-      className="relative min-h-[600px] sm:min-h-[660px] flex flex-col justify-between overflow-hidden bg-stone-950 text-white select-none"
+      className="relative min-h-[540px] sm:min-h-[640px] flex flex-col justify-between overflow-hidden bg-stone-950 text-white select-none touch-pan-y"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       {/* 1. SLIDING / CROSSFADING BACKGROUND IMAGES */}
       <div className="absolute inset-0 z-0">
@@ -83,15 +106,15 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
                 alt={slide.heading}
                 className="w-full h-full object-cover"
               />
-              {/* Dark overlay for contrast */}
-              <div className="absolute inset-0 bg-stone-950/50 backdrop-brightness-90" />
+              {/* Dark gradient overlay optimized for mobile readability */}
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-stone-950/60" />
             </div>
           );
         })}
       </div>
 
-      {/* 2. TEXT OVERLAY CONTENT (TRANSITIONS WITH CURRENT SLIDE) */}
-      <div className="relative z-20 pt-20 pb-4 px-6 max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center items-center">
+      {/* 2. TEXT OVERLAY CONTENT */}
+      <div className="relative z-20 pt-12 sm:pt-20 pb-4 px-4 sm:px-6 max-w-4xl mx-auto text-center flex-1 flex flex-col justify-center items-center">
         {validSlides.map((slide, idx) => {
           const isActive = idx === currentIndex;
           if (!isActive) return null;
@@ -102,17 +125,17 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
               className="animate-fadeIn transition-all duration-700 max-w-3xl flex flex-col items-center"
             >
               {slide.badge && (
-                <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-wider mb-6 shadow-md">
+                <span className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-[11px] sm:text-xs font-bold tracking-wider mb-4 sm:mb-6 shadow-md">
                   {slide.badge}
                 </span>
               )}
 
-              <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-tight mb-4 text-white drop-shadow-md">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight mb-3 sm:mb-4 text-white drop-shadow-md">
                 {slide.heading}
               </h1>
 
               {slide.description && (
-                <p className="text-base sm:text-lg text-stone-100 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow">
+                <p className="text-xs sm:text-base md:text-lg text-stone-100 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow line-clamp-3 sm:line-clamp-none">
                   {slide.description}
                 </p>
               )}
@@ -120,16 +143,16 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
           );
         })}
 
-        {/* Carousel Indicators (Visible ONLY if user added > 1 slide in Sanity) */}
+        {/* Carousel Indicators */}
         {isMultiple && (
-          <div className="flex items-center gap-2 mt-6 z-30">
+          <div className="flex items-center gap-2 mt-4 sm:mt-6 z-30">
             {validSlides.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 aria-label={`Go to slide ${idx + 1}`}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === idx ? "w-8 bg-amber-400" : "w-2 bg-white/50 hover:bg-white/80"
+                  currentIndex === idx ? "w-7 sm:w-8 bg-amber-400" : "w-2 bg-white/50 hover:bg-white/80"
                 }`}
               />
             ))}
@@ -137,35 +160,35 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
         )}
       </div>
 
-      {/* 3. STATIC QUICK TRIP INQUIRY BOX (ANCHORED AT BOTTOM - NEVER SHIFTS) */}
-      <div className="relative z-20 pb-12 px-6 w-full max-w-4xl mx-auto">
-        <div className="bg-white text-stone-900 rounded-2xl p-4 sm:p-5 shadow-2xl border border-stone-200 text-left grid grid-cols-1 sm:grid-cols-4 gap-3">
-          <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">
+      {/* 3. STATIC QUICK TRIP INQUIRY BOX */}
+      <div className="relative z-20 pb-8 sm:pb-12 px-4 sm:px-6 w-full max-w-4xl mx-auto">
+        <div className="bg-white/95 backdrop-blur-md text-stone-900 rounded-2xl p-3.5 sm:p-5 shadow-2xl border border-stone-200 text-left grid grid-cols-1 sm:grid-cols-4 gap-2.5 sm:gap-3">
+          <div className="p-2.5 sm:p-3 bg-stone-50 rounded-xl border border-stone-200">
+            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-0.5 sm:mb-1">
               Destination
             </label>
-            <select className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
+            <select className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
               <option>Munnar & Alleppey</option>
               <option>Complete Kerala Tour</option>
               <option>Wayanad Rainforest</option>
-              <option>Kovalam Beach</option>
+              <option>Kovalam & Poovar Beach</option>
             </select>
           </div>
-          <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">
+          <div className="p-2.5 sm:p-3 bg-stone-50 rounded-xl border border-stone-200">
+            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-0.5 sm:mb-1">
               Travel Month
             </label>
             <input
               type="text"
-              defaultValue="October / November"
-              className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full"
+              defaultValue="Upcoming Month"
+              className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full"
             />
           </div>
-          <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">
+          <div className="p-2.5 sm:p-3 bg-stone-50 rounded-xl border border-stone-200">
+            <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-0.5 sm:mb-1">
               Travellers
             </label>
-            <select className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
+            <select className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
               <option>Family (4-6 Persons)</option>
               <option>Honeymoon Couple</option>
               <option>Group (8+ Persons)</option>
@@ -175,7 +198,7 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
             href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20looking%20for%20a%20customized%20Kerala%20tour%20package.`}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-center rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm tracking-wide transition-all shadow-md py-3.5 sm:py-0 gap-2"
+            className="flex items-center justify-center rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md py-3.5 sm:py-0 gap-2 min-h-[44px]"
           >
             <span>WhatsApp Inquiry</span>
             <span>💬</span>

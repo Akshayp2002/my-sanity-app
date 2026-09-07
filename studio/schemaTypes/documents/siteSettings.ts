@@ -6,16 +6,40 @@ export const siteSettings = defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'showNotificationBar',
+      title: 'Show Top Notification Bar?',
+      type: 'boolean',
+      initialValue: true,
+      description: 'Toggle ON to show, or OFF to completely hide the green notification bar at the top of the website.',
+    }),
+    defineField({
       name: 'topNotificationBar',
       title: 'Top Notification Bar Text',
       type: 'string',
       initialValue: '🌿 Authorized Local Tour Operator • Registered Office in Kochi, Kerala • Direct Cab Drivers & Houseboat Owners!',
+      hidden: ({ document }) => !document?.showNotificationBar,
+    }),
+    defineField({
+      name: 'logoImage',
+      title: 'Agency Logo Image (Upload Transparent PNG / SVG)',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      description: 'Upload your company transparent PNG or SVG logo. If uploaded, it will automatically be displayed in the header and footer with no background.',
+    }),
+    defineField({
+      name: 'logoImageUrl',
+      title: 'Or Direct Logo Image URL (Optional)',
+      type: 'url',
+      description: 'Optional alternative: paste a direct PNG URL.',
     }),
     defineField({
       name: 'logoIcon',
-      title: 'Logo Icon / Emoji',
+      title: 'Logo Icon / Emoji (Fallback)',
       type: 'string',
       initialValue: '🌴',
+      description: 'Displayed if no logo image is uploaded.',
     }),
     defineField({
       name: 'logoText',

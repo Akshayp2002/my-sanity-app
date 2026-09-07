@@ -151,6 +151,13 @@ export type HeroSlide = {
   order?: number;
 };
 
+export type SanityImageAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+};
+
 export type SiteSettings = {
   _id: string;
   _type: "siteSettings";
@@ -158,6 +165,14 @@ export type SiteSettings = {
   _updatedAt: string;
   _rev: string;
   topNotificationBar?: string;
+  logoImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  logoImageUrl?: string;
   logoIcon?: string;
   logoText?: string;
   logoTagline?: string;
@@ -175,6 +190,22 @@ export type SiteSettings = {
   footerPhone?: string;
   footerEmail?: string;
   footerCopyright?: string;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -213,22 +244,6 @@ export type SanityImageMetadata = {
   thumbHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
 };
 
 export type SanityFileAsset = {
@@ -302,13 +317,14 @@ export type AllSanitySchemaTypes =
   | Slug
   | Destination
   | HeroSlide
+  | SanityImageAssetReference
   | SiteSettings
+  | SanityImageCrop
+  | SanityImageHotspot
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
   | SanityImageMetadata
-  | SanityImageHotspot
-  | SanityImageCrop
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset
