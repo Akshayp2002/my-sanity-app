@@ -30,7 +30,7 @@ export default async function PackagesPage() {
   return (
     <div className="text-stone-900 font-sans">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-emerald-900 via-teal-900 to-emerald-950 text-white py-16 px-6 text-center">
+      <section className="bg-gradient-to-r from-emerald-800 via-teal-800 to-emerald-900 text-white py-16 px-6 text-center">
         <div className="max-w-3xl mx-auto">
           <span className="text-xs uppercase font-bold tracking-widest text-amber-300 mb-2 block">
             Customized Kerala Tour Packages
