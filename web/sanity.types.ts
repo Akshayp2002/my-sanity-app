@@ -81,6 +81,22 @@ export type HeroSection = {
   secondaryCtaLink?: string;
 };
 
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -113,6 +129,51 @@ export type Slug = {
   _type: "slug";
   current?: string;
   source?: string;
+};
+
+export type FaqItem = {
+  _type: "faqItem";
+  question?: string;
+  answer?: string;
+};
+
+export type TestimonialItem = {
+  _type: "testimonialItem";
+  name?: string;
+  city?: string;
+  packageTitle?: string;
+  review?: string;
+  rating?: string;
+  avatar?: string;
+};
+
+export type ExperienceItem = {
+  _type: "experienceItem";
+  icon?: string;
+  title?: string;
+  description?: string;
+};
+
+export type DestinationItem = {
+  _type: "destinationItem";
+  name?: string;
+  tag?: string;
+  link?: string;
+};
+
+export type HeroSlide = {
+  _type: "heroSlide";
+  image?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+  imageUrl?: string;
+  badge?: string;
+  heading?: string;
+  description?: string;
 };
 
 export type TourPackage = {
@@ -162,14 +223,28 @@ export type LandingPage = {
   _rev: string;
   title?: string;
   slug?: Slug;
+  topNotificationBar?: string;
+  logoIcon?: string;
   logoText?: string;
+  logoTagline?: string;
   whatsappNumber?: string;
   navItems?: Array<
     {
       _key: string;
     } & NavItem
   >;
-  hero?: HeroSection;
+  heroSlides?: Array<
+    {
+      _key: string;
+    } & HeroSlide
+  >;
+  destinationsTitle?: string;
+  destinations?: Array<
+    {
+      _key: string;
+    } & DestinationItem
+  >;
+  featuresSectionTag?: string;
   featuresSectionTitle?: string;
   featuresSectionSubtitle?: string;
   features?: Array<
@@ -177,30 +252,40 @@ export type LandingPage = {
       _key: string;
     } & FeatureItem
   >;
+  experiencesSectionTag?: string;
+  experiencesSectionTitle?: string;
+  experiences?: Array<
+    {
+      _key: string;
+    } & ExperienceItem
+  >;
+  gallerySectionTag?: string;
   gallerySectionTitle?: string;
   gallery?: Array<
     {
       _key: string;
     } & GalleryItem
   >;
+  testimonialsSectionTag?: string;
+  testimonialsSectionTitle?: string;
+  testimonials?: Array<
+    {
+      _key: string;
+    } & TestimonialItem
+  >;
+  faqSectionTag?: string;
+  faqSectionTitle?: string;
+  faqs?: Array<
+    {
+      _key: string;
+    } & FaqItem
+  >;
   cta?: CtaSection;
-  footerText?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
+  footerAboutText?: string;
+  footerOfficeAddress?: string;
+  footerPhone?: string;
+  footerEmail?: string;
+  footerCopyright?: string;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -308,13 +393,18 @@ export type AllSanitySchemaTypes =
   | FeatureItem
   | SanityImageAssetReference
   | HeroSection
+  | SanityImageCrop
+  | SanityImageHotspot
   | Post
   | Slug
+  | FaqItem
+  | TestimonialItem
+  | ExperienceItem
+  | DestinationItem
+  | HeroSlide
   | TourPackage
   | ContactPage
   | LandingPage
-  | SanityImageCrop
-  | SanityImageHotspot
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions

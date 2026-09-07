@@ -18,7 +18,7 @@ interface HeroCarouselProps {
 }
 
 export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroCarouselProps) {
-  // Default Kerala fallback slides with rich photography
+  // Default single static slide (No multiple dummy images)
   const defaultSlides: SlideItem[] = [
     {
       badge: "🌴 Govt. Approved Local Kerala Operator",
@@ -28,31 +28,16 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
       imageUrl:
         "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=2000&auto=format&fit=crop",
     },
-    {
-      badge: "☕ Munnar Tea Hills & Mist Explorer",
-      heading: "Discover Rolling Hills, Waterfalls & Tea Gardens",
-      description:
-        "Walk through lush green plantations 1,600m above sea level with private AC cabs and local sightseeing guides.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?q=80&w=2000&auto=format&fit=crop",
-    },
-    {
-      badge: "⛵ Alleppey Backwater Houseboats",
-      heading: "Sail on Tranquil Backwaters with Authentic Kerala Cuisine",
-      description:
-        "Private AC deluxe & luxury houseboats with personal chefs serving fresh Karimeen fish fry and traditional Kerala meals.",
-      imageUrl:
-        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=2000&auto=format&fit=crop",
-    },
   ];
 
+  // If user configured slides in Sanity, use them; otherwise use the single default slide
   const validSlides = slides && slides.length > 0 ? slides : defaultSlides;
   const isMultiple = validSlides.length > 1;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
 
-  // Automatic slide transition every 5 seconds if multiple slides exist
+  // Automatic slide transition every 5 seconds ONLY if multiple slides were added in Sanity
   useEffect(() => {
     if (!isMultiple || isPaused) return;
 
@@ -135,7 +120,7 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
           );
         })}
 
-        {/* Carousel Indicators (Visible only if > 1 slide) */}
+        {/* Carousel Indicators (Visible ONLY if user added > 1 slide in Sanity) */}
         {isMultiple && (
           <div className="flex items-center gap-2 mt-6 z-30">
             {validSlides.map((_, idx) => (
@@ -152,7 +137,7 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
         )}
       </div>
 
-      {/* 3. STATIC QUICK TRIP INQUIRY BOX (ANCHORED AT BOTTOM - DOES NOT MOVE ON SLIDE) */}
+      {/* 3. STATIC QUICK TRIP INQUIRY BOX (ANCHORED AT BOTTOM - NEVER SHIFTS) */}
       <div className="relative z-20 pb-12 px-6 w-full max-w-4xl mx-auto">
         <div className="bg-white text-stone-900 rounded-2xl p-4 sm:p-5 shadow-2xl border border-stone-200 text-left grid grid-cols-1 sm:grid-cols-4 gap-3">
           <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
