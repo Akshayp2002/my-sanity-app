@@ -187,6 +187,35 @@ function getFallbackPackage(slug: string) {
   };
 }
 
+export async function generateStaticParams() {
+  try {
+    const packages = await client.fetch<Array<{ slug?: string }>>(
+      `*[_type == "tourPackage" && defined(slug.current)]{ "slug": slug.current }`
+    );
+    const sanitySlugs = (packages || [])
+      .map((p) => ({ slug: String(p.slug) }))
+      .filter((s) => Boolean(s.slug));
+    const defaultSlugs = [
+      { slug: "munnar-tea-hills" },
+      { slug: "alleppey-houseboat" },
+      { slug: "wayanad-nature" },
+      { slug: "kovalam-beach" },
+      { slug: "thekkady-safari" },
+      { slug: "kerala-honeymoon" },
+    ];
+    return [...defaultSlugs, ...sanitySlugs];
+  } catch {
+    return [
+      { slug: "munnar-tea-hills" },
+      { slug: "alleppey-houseboat" },
+      { slug: "wayanad-nature" },
+      { slug: "kovalam-beach" },
+      { slug: "thekkady-safari" },
+      { slug: "kerala-honeymoon" },
+    ];
+  }
+}
+
 export default async function PackageDetailPage({
   params,
 }: {

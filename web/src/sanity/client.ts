@@ -1,14 +1,14 @@
 import { createClient } from "next-sanity";
-import imageUrlBuilder from "@sanity/image-url";
+import { createImageUrlBuilder } from "@sanity/image-url";
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: "2026-09-07",
-  useCdn: false, // Set to false to ensure instant updates in dev mode
+  useCdn: false,
 });
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function urlFor(source: any) {
