@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
@@ -19,11 +20,51 @@ const PACKAGE_DETAIL_QUERY = defineQuery(
     description,
     itinerary[]{ dayNumber, title, description },
     inclusions,
-    exclusions
+    exclusions,
+    metaTitle,
+    metaDescription
   }`
 );
 
 const options = { next: { revalidate: 60 } };
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
+  const pkg = await client.fetch<SanityDocument | null>(PACKAGE_DETAIL_QUERY, { slug }, options);
+
+  if (!pkg) {
+    return { title: "Package Not Found" };
+  }
+
+  const title = pkg.metaTitle || `${pkg.title} (${pkg.tag || "Kerala Tour"})`;
+  const description =
+    pkg.metaDescription ||
+    pkg.description ||
+    `Book ${pkg.title} with private AC cab transfers, certified hotels, and custom Kerala itineraries.`;
+  const image =
+    pkg.imageUrl || "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1200";
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: [{ url: image }],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [image],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const slugs = await client.fetch<Array<{ slug: { current: string } }>>(

@@ -39,6 +39,11 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef<number | null>(null);
 
+  // Dynamic quick inquiry form states
+  const [destination, setDestination] = useState("Munnar & Alleppey Combo");
+  const [travelMonth, setTravelMonth] = useState("Upcoming Month");
+  const [travellers, setTravellers] = useState("Family (4-6 Persons)");
+
   // Automatic slide transition every 5 seconds ONLY if multiple slides
   useEffect(() => {
     if (!isMultiple || isPaused) return;
@@ -169,11 +174,16 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
             <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-0.5 sm:mb-1">
               Destination
             </label>
-            <select className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
-              <option>Munnar & Alleppey</option>
-              <option>Complete Kerala Tour</option>
-              <option>Wayanad Rainforest</option>
-              <option>Kovalam & Poovar Beach</option>
+            <select
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer"
+            >
+              <option value="Munnar & Alleppey Combo">Munnar & Alleppey Combo</option>
+              <option value="Complete Kerala (Munnar, Thekkady, Alleppey, Kovalam)">Complete Kerala Tour</option>
+              <option value="Wayanad Rainforest & Waterfalls">Wayanad Rainforest</option>
+              <option value="Kovalam & Poovar Beach Island">Kovalam & Poovar Beach</option>
+              <option value="Custom Kerala Circuit">Custom Circuit</option>
             </select>
           </div>
           <div className="p-2.5 sm:p-3 bg-stone-50 rounded-xl border border-stone-200">
@@ -182,7 +192,9 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
             </label>
             <input
               type="text"
-              defaultValue="Upcoming Month"
+              value={travelMonth}
+              onChange={(e) => setTravelMonth(e.target.value)}
+              placeholder="e.g. October 2026"
               className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full"
             />
           </div>
@@ -190,16 +202,21 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
             <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-0.5 sm:mb-1">
               Travellers
             </label>
-            <select className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
-              <option>Family (4-6 Persons)</option>
-              <option>Honeymoon Couple</option>
-              <option>Group (8+ Persons)</option>
+            <select
+              value={travellers}
+              onChange={(e) => setTravellers(e.target.value)}
+              className="bg-transparent text-xs sm:text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer"
+            >
+              <option value="Family (4-6 Persons)">Family (4-6 Persons)</option>
+              <option value="Honeymoon Couple">Honeymoon Couple</option>
+              <option value="Group (8+ Persons)">Group (8+ Persons)</option>
+              <option value="Solo Traveler">Solo Traveler</option>
             </select>
           </div>
           <a
             href={getWhatsAppUrl(
               whatsappNumber,
-              "Hi! I am looking for a customized Kerala tour package."
+              `Hi Kerala Green Haven Tours! I want to inquire about a customized Kerala tour package:\n• 📍 Destination: ${destination}\n• 🗓 Travel Month: ${travelMonth || "Upcoming"}\n• 👥 Travellers: ${travellers}\n\nPlease share itinerary details, hotel options, and price quotation.`
             )}
             target="_blank"
             rel="noopener noreferrer"

@@ -18,12 +18,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Kerala Green Haven Tours | Best Kerala Holiday Packages",
-  description:
-    "Authorized local tour operator in Kerala, India. Customized holiday packages for Munnar, Alleppey Houseboats, Wayanad, Kovalam, and Ayurveda Retreats.",
-};
-
 const SITE_LAYOUT_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
     showNotificationBar,
@@ -39,7 +33,12 @@ const SITE_LAYOUT_QUERY = defineQuery(`{
     footerOfficeAddress,
     footerPhone,
     footerEmail,
-    footerCopyright
+    footerCopyright,
+    metaTitle,
+    metaDescription,
+    metaKeywords,
+    ogImage,
+    canonicalUrl
   },
   "destinations": *[_type == "destination"] | order(order asc){
     name,
@@ -48,6 +47,76 @@ const SITE_LAYOUT_QUERY = defineQuery(`{
 }`);
 
 const options = { next: { revalidate: 60 } };
+
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await client.fetch<SanityDocument | null>(SITE_LAYOUT_QUERY, {}, options);
+  const settings = data?.settings;
+
+  const title =
+    settings?.metaTitle ||
+    `${settings?.logoText || "Kerala Green Haven Tours"} | Best Kerala Holiday Packages & Houseboat Cruises`;
+  const description =
+    settings?.metaDescription ||
+    "Authorized local tour operator in Kerala, India. Customized holiday packages for Munnar, Alleppey Houseboats, Wayanad, Kovalam, and Ayurveda Retreats.";
+  const keywords =
+    settings?.metaKeywords ||
+    "Kerala tour packages, Munnar tour, Alleppey houseboat, Kerala tourism, Kochi cab service";
+  const canonical = settings?.canonicalUrl || "https://keralagreenhaventours.com";
+
+  let ogImageUrl = "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=1200";
+  if (settings?.ogImage) {
+    try {
+      ogImageUrl = urlFor(settings.ogImage).width(1200).height(630).url();
+    } catch {
+      // fallback
+    }
+  }
+
+  return {
+    title: {
+      default: title,
+      template: `%s | ${settings?.logoText || "Kerala Green Haven Tours"}`,
+    },
+    description,
+    keywords: keywords.split(",").map((k: string) => k.trim()),
+    authors: [{ name: settings?.logoText || "Kerala Green Haven Tours" }],
+    creator: settings?.logoText || "Kerala Green Haven Tours",
+    metadataBase: new URL(canonical),
+    alternates: {
+      canonical: "/",
+    },
+    openGraph: {
+      title,
+      description,
+      url: canonical,
+      siteName: settings?.logoText || "Kerala Green Haven Tours",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: "en_IN",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [ogImageUrl],
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
+  };
+}
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const data = await client.fetch<SanityDocument | null>(SITE_LAYOUT_QUERY, {}, options);

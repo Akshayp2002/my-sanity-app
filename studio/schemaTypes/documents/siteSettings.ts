@@ -118,5 +118,43 @@ export const siteSettings = defineType({
       type: 'string',
       initialValue: '© 2026 Kerala Green Haven Tours & Travels, Kochi, Kerala, India.',
     }),
+    defineField({
+      name: 'metaTitle',
+      title: 'SEO Meta Title (Google Search Title)',
+      type: 'string',
+      initialValue: 'Kerala Green Haven Tours | Best Kerala Holiday Packages & Houseboat Cruises',
+      description: 'The title that appears in Google search results and browser tabs (recommended: 50-60 characters).',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'SEO Meta Description (Google Snippet)',
+      type: 'text',
+      rows: 3,
+      initialValue: 'Authorized local tour operator in Kerala, India. Customized holiday packages for Munnar, Alleppey Houseboats, Wayanad, Kovalam, and Ayurveda Retreats.',
+      description: 'The summary snippet displayed beneath your page title in Google results (recommended: 150-160 characters).',
+    }),
+    defineField({
+      name: 'metaKeywords',
+      title: 'SEO Keywords (Comma Separated)',
+      type: 'string',
+      initialValue: 'Kerala tour packages, Munnar tour, Alleppey houseboat booking, Kerala tourism, Kochi cab service, Wayanad resorts, Kovalam beach tour',
+      description: 'Keywords to help search engines index your travel offerings.',
+    }),
+    defineField({
+      name: 'ogImage',
+      title: 'Social Share / OpenGraph Image (WhatsApp, Facebook, Twitter preview)',
+      type: 'image',
+      options: {
+        hotspot: true,
+      },
+      description: 'Image displayed when sharing your website URL on WhatsApp, Facebook, LinkedIn, Twitter/X.',
+    }),
+    defineField({
+      name: 'canonicalUrl',
+      title: 'Canonical Website URL',
+      type: 'url',
+      initialValue: 'https://keralagreenhaventours.com',
+      description: 'The primary live domain URL for SEO indexing.',
+    }),
   ],
 })

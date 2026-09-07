@@ -80,6 +80,19 @@ export const tourPackage = defineType({
       type: 'number',
       initialValue: 1,
     }),
+    defineField({
+      name: 'metaTitle',
+      title: 'SEO Meta Title (Optional Override)',
+      type: 'string',
+      description: 'Custom Google title for this package (leave empty to use package title automatically).',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'SEO Meta Description (Optional Override)',
+      type: 'text',
+      rows: 2,
+      description: 'Custom Google search snippet (leave empty to use package overview automatically).',
+    }),
   ],
   orderings: [
     {
