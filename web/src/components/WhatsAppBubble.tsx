@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 export function WhatsAppBubble({
   phone = "+919876543210",
@@ -9,8 +10,7 @@ export function WhatsAppBubble({
   phone?: string;
   message?: string;
 }) {
-  const cleanPhone = phone.replace(/[^0-9]/g, "");
-  const whatsappUrl = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = getWhatsAppUrl(phone, message);
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex items-center gap-3">

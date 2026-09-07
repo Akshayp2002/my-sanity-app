@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 interface NavItem {
   label: string;
@@ -82,9 +83,12 @@ export function Header({
         {/* Desktop WhatsApp CTA Button */}
         <div className="hidden md:flex items-center gap-3">
           <a
-            href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20interested%20in%20Kerala%20tour%20packages.`}
+            href={getWhatsAppUrl(
+              whatsappNumber,
+              "Hi! I am interested in Kerala tour packages."
+            )}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="px-4 py-2 text-xs font-bold rounded-lg bg-[#25D366] text-white hover:bg-[#20ba59] transition-all shadow flex items-center gap-2"
           >
             <WhatsAppIcon className="w-4 h-4 fill-current" />
@@ -134,9 +138,12 @@ export function Header({
 
           <div className="pt-2 border-t border-stone-100 flex flex-col gap-2">
             <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20interested%20in%20Kerala%20tour%20packages.`}
+              href={getWhatsAppUrl(
+                whatsappNumber,
+                "Hi! I am interested in Kerala tour packages."
+              )}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full py-3.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm transition-all shadow text-center flex items-center justify-center gap-2"
             >

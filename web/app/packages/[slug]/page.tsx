@@ -3,6 +3,7 @@ import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 const PACKAGE_DETAIL_QUERY = defineQuery(
   `*[_type == "tourPackage" && (slug.current == $slug || _id == $slug)][0]{
@@ -63,10 +64,10 @@ export default async function PackageDetailPage({
 
   const durationTag = pkg.tag || pkg.duration || "3 Days / 2 Nights";
   const whatsappPhone = "+919876543210";
-  const cleanWhatsapp = whatsappPhone.replace(/[^0-9]/g, "");
-  const whatsappUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(
-    `Hi! I want to book/customize the "${pkg.title}" package.`
-  )}`;
+  const whatsappUrl = getWhatsAppUrl(
+    whatsappPhone,
+    `Hi! I want to book/customize the "${pkg.title}" package (${durationTag}).`
+  );
 
   return (
     <div className="text-stone-900 font-sans">

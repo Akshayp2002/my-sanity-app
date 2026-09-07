@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { urlFor } from "@/sanity/client";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 export interface SlideItem {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -196,9 +197,12 @@ export function HeroCarousel({ slides, whatsappNumber = "+919876543210" }: HeroC
             </select>
           </div>
           <a
-            href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20looking%20for%20a%20customized%20Kerala%20tour%20package.`}
+            href={getWhatsAppUrl(
+              whatsappNumber,
+              "Hi! I am looking for a customized Kerala tour package."
+            )}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="flex items-center justify-center rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs sm:text-sm tracking-wide transition-all shadow-md py-3.5 sm:py-0 gap-2 min-h-[44px]"
           >
             <WhatsAppIcon className="w-4 h-4 fill-current" />

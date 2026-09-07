@@ -1,6 +1,7 @@
 import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getPrimaryPhoneNumber, getWhatsAppUrl } from "@/utils/phone";
 
 const CONTACT_PAGE_QUERY = defineQuery(
   `*[_type == "contactPage"][0]{
@@ -78,11 +79,11 @@ export default async function ContactPage() {
               <div>
                 <p className="text-xs font-bold text-stone-500 uppercase tracking-wider">Direct Phone Support</p>
                 <p className="text-sm font-semibold text-stone-800 mt-0.5">
-                  <a href={`tel:${phonePrimary.replace(/[^0-9+]/g, "")}`} className="hover:text-emerald-700">
+                  <a href={`tel:${getPrimaryPhoneNumber(phonePrimary)}`} className="hover:text-emerald-700">
                     {phonePrimary}
                   </a>
                   {" / "}
-                  <a href={`tel:${phoneSecondary.replace(/[^0-9+]/g, "")}`} className="hover:text-emerald-700">
+                  <a href={`tel:${getPrimaryPhoneNumber(phoneSecondary)}`} className="hover:text-emerald-700">
                     {phoneSecondary}
                   </a>
                 </p>
@@ -121,9 +122,12 @@ export default async function ContactPage() {
               Our local Kerala tour managers reply within 5 minutes on WhatsApp!
             </p>
             <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20want%20to%20plan%20a%20Kerala%20holiday%20trip.`}
+              href={getWhatsAppUrl(
+                whatsappNumber,
+                "Hi! I want to plan a Kerala holiday trip."
+              )}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2.5 px-6 py-3 bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm rounded-xl transition-all shadow-md"
             >
               <WhatsAppIcon className="w-5 h-5 fill-current" />

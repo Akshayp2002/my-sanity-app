@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 interface GalleryPhoto {
   _id?: string;
@@ -214,11 +215,14 @@ export function InstagramPhotoGrid({
               {/* Inquiry Action on WhatsApp */}
               <div className="flex items-center gap-2.5 shrink-0">
                 <a
-                  href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20saw%20this%20photo%20of%20${encodeURIComponent(
-                    activePhoto.caption || activePhoto.category || "Kerala"
-                  )}%20on%20your%20website.%20Can%20you%20share%20tour%20packages%20covering%20this?`}
+                  href={getWhatsAppUrl(
+                    whatsappNumber,
+                    `Hi! I saw this photo of ${
+                      activePhoto.caption || activePhoto.category || "Kerala"
+                    } on your website. Can you share tour packages covering this?`
+                  )}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
                   className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-extrabold transition-all flex items-center justify-center gap-2 shadow-md"
                 >
                   <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />

@@ -2,25 +2,29 @@
 
 import React from "react";
 import { WhatsAppIcon } from "./WhatsAppIcon";
+import { getPrimaryPhoneNumber, getWhatsAppUrl } from "@/utils/phone";
 
 interface StickyMobileActionBarProps {
-  whatsappNumber: string;
+  whatsappNumber?: string;
   phoneNumber?: string;
 }
 
 export function StickyMobileActionBar({
-  whatsappNumber,
+  whatsappNumber = "+919876543210",
   phoneNumber = "+919876543210",
 }: StickyMobileActionBarProps) {
-  const cleanWhatsapp = whatsappNumber.replace(/[^0-9]/g, "");
-  const cleanPhone = phoneNumber.replace(/[^0-9+]/g, "");
+  const dialNumber = getPrimaryPhoneNumber(phoneNumber);
+  const waUrl = getWhatsAppUrl(
+    whatsappNumber,
+    "Hi! I am planning a Kerala trip. Please send me customized itineraries and quotation."
+  );
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-white/95 backdrop-blur-lg border-t border-stone-200/90 shadow-[0_-8px_25px_rgba(0,0,0,0.12)] px-3 py-2.5 pb-[max(0.65rem,env(safe-area-inset-bottom))] transition-transform">
       <div className="flex items-center gap-2.5 max-w-md mx-auto">
-        {/* Direct Call Button */}
+        {/* Direct Call Button - dials ONLY first clean number */}
         <a
-          href={`tel:${cleanPhone}`}
+          href={`tel:${dialNumber}`}
           className="flex-1 py-3 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-900 font-bold text-xs flex items-center justify-center gap-2 border border-stone-300/80 active:scale-[0.98] transition-all"
         >
           <svg
@@ -39,11 +43,11 @@ export function StickyMobileActionBar({
           <span className="truncate">Call Office</span>
         </a>
 
-        {/* Instant WhatsApp Quote Button */}
+        {/* Instant WhatsApp Quote Button - universal whatsapp opening */}
         <a
-          href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20planning%20a%20Kerala%20trip.%20Please%20send%20me%20customized%20itineraries%20and%20quotation.`}
+          href={waUrl}
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
           className="flex-1 py-3 px-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs flex items-center justify-center gap-2 shadow-md shadow-emerald-900/20 active:scale-[0.98] transition-all"
         >
           <WhatsAppIcon className="w-4 h-4 fill-current shrink-0" />

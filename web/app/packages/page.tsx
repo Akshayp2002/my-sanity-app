@@ -2,6 +2,7 @@ import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 const PACKAGES_QUERY = defineQuery(
   `*[_type == "tourPackage"] | order(order asc){
@@ -52,7 +53,7 @@ export default async function PackagesPage() {
               typeof pkg.slug === "object" ? pkg.slug?.current : pkg.slug || "munnar-tea-hills";
             const durationTag = pkg.tag || pkg.duration || "3 Days / 2 Nights";
             const waMsg = `Hi! I am interested in booking/customizing the "${pkg.title}" (${durationTag}). Please share details.`;
-            const waUrl = `https://wa.me/${cleanWhatsapp}?text=${encodeURIComponent(waMsg)}`;
+            const waUrl = getWhatsAppUrl(whatsappPhone, waMsg);
 
             return (
               <div

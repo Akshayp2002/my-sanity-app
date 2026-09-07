@@ -6,6 +6,7 @@ import { WhatsAppIcon } from "@/components/WhatsAppIcon";
 import { TrustHighlightsBar } from "@/components/TrustHighlightsBar";
 import { InstagramPhotoGrid } from "@/components/InstagramPhotoGrid";
 import { FaqAccordion } from "@/components/FaqAccordion";
+import { getWhatsAppUrl } from "@/utils/phone";
 
 const HOME_PAGE_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
@@ -410,9 +411,12 @@ export default async function KeralaTravelLandingPage() {
 
             <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 w-full sm:w-auto shrink-0 relative z-10">
               <a
-                href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20interested%20in%20a%20Kerala%20tour%20package.`}
+                href={getWhatsAppUrl(
+                  rawWhatsapp,
+                  "Hi! I am interested in a customized Kerala tour package."
+                )}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 className="px-7 sm:px-9 py-4 rounded-2xl bg-[#25D366] hover:bg-[#20ba59] text-white font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all shadow-xl shadow-emerald-950/40 hover:scale-105 flex items-center justify-center gap-2.5 min-h-[48px]"
               >
                 <WhatsAppIcon className="w-4 h-4 fill-current" />

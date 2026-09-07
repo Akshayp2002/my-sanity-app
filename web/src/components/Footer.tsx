@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { getPrimaryPhoneNumber, getWhatsAppUrl } from "@/utils/phone";
 
 export interface FooterProps {
   logoSrc?: string | null;
@@ -107,7 +108,7 @@ export function Footer({
           {footerAddress && <p className="text-stone-600 font-bold mb-1">📍 {footerAddress}</p>}
           {footerPhone && (
             <p className="text-stone-600 mb-1">
-              📞 <a href={`tel:${footerPhone.replace(/[^0-9+]/g, "")}`}>{footerPhone}</a>
+              📞 <a href={`tel:${getPrimaryPhoneNumber(footerPhone)}`}>{footerPhone}</a>
             </p>
           )}
           {footerEmail && (
@@ -116,9 +117,12 @@ export function Footer({
             </p>
           )}
           <a
-            href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20want%20to%20plan%20a%20Kerala%20trip.`}
+            href={getWhatsAppUrl(
+              whatsappNumber,
+              "Hi! I want to plan a Kerala trip with Kerala Green Haven Tours."
+            )}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#25D366] text-white font-bold rounded text-[11px]"
           >
             <WhatsAppIcon className="w-3.5 h-3.5 fill-current" />
