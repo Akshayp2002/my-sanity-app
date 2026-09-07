@@ -37,8 +37,15 @@ export const landingPage = defineType({
       of: [defineArrayMember({ type: 'navItem' })],
     }),
     defineField({
+      name: 'heroSlides',
+      title: 'Hero Carousel Slides (Images & Headings)',
+      type: 'array',
+      of: [defineArrayMember({ type: 'heroSlide' })],
+      description: 'Add 1 or more slides with Image, Heading, and Description. Multiple slides will automatically slide in a loop!',
+    }),
+    defineField({
       name: 'hero',
-      title: 'Big Banner Hero Section',
+      title: 'Legacy Hero Settings (Fallback)',
       type: 'heroSection',
     }),
     defineField({

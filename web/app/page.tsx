@@ -1,6 +1,7 @@
-import { client, urlFor } from "@/sanity/client";
+import { client } from "@/sanity/client";
 import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
+import { HeroCarousel } from "@/components/HeroCarousel";
 
 const LANDING_PAGE_QUERY = defineQuery(
   `*[_type == "landingPage"][0]{
@@ -8,6 +9,13 @@ const LANDING_PAGE_QUERY = defineQuery(
     logoText,
     whatsappNumber,
     navItems[]{ label, link },
+    heroSlides[]{
+      image,
+      imageUrl,
+      badge,
+      heading,
+      description
+    },
     hero{
       badgeText,
       heading,
@@ -211,12 +219,6 @@ export default async function KeralaTravelLandingPage() {
 
   const footerText = pageData?.footerText || "© 2026 Kerala Green Haven Tours & Travels, Kochi, Kerala, India.";
 
-  const heroBannerUrl =
-    pageData?.hero?.heroImage
-      ? urlFor(pageData.hero.heroImage).url()
-      : hero.backgroundImageUrl ||
-        "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=2000&auto=format&fit=crop";
-
   return (
     <div className="min-h-screen bg-stone-50 text-stone-900 font-sans selection:bg-emerald-700 selection:text-white">
       {/* Top Notification Bar */}
@@ -268,70 +270,8 @@ export default async function KeralaTravelLandingPage() {
         </div>
       </header>
 
-      {/* 1. HERO SECTION WITH BIG BACKGROUND IMAGE */}
-      <section className="relative min-h-[580px] sm:min-h-[640px] flex items-center justify-center text-center px-6 overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src={heroBannerUrl}
-            alt="Kerala Backwaters Houseboat"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-stone-950/45 backdrop-brightness-95" />
-        </div>
-
-        <div className="max-w-4xl mx-auto relative z-10 py-16 text-white">
-          {hero.badgeText && (
-            <span className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold tracking-wider mb-6 shadow-md">
-              {hero.badgeText}
-            </span>
-          )}
-
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6">
-            {hero.heading}{" "}
-            <span className="text-amber-300 drop-shadow-md">
-              {hero.highlightText}
-            </span>
-          </h1>
-
-          <p className="text-lg sm:text-xl text-stone-100 max-w-2xl mx-auto leading-relaxed mb-10 font-normal">
-            {hero.subheading}
-          </p>
-
-          {/* Quick Trip Inquiry Box */}
-          <div className="max-w-3xl mx-auto bg-white text-stone-900 rounded-2xl p-4 sm:p-5 shadow-2xl border border-stone-200 text-left grid grid-cols-1 sm:grid-cols-4 gap-3">
-            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-              <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">Destination</label>
-              <select className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
-                <option>Munnar & Alleppey</option>
-                <option>Complete Kerala Tour</option>
-                <option>Wayanad Rainforest</option>
-                <option>Kovalam Beach</option>
-              </select>
-            </div>
-            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-              <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">Travel Month</label>
-              <input type="text" defaultValue="October / November" className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full" />
-            </div>
-            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200">
-              <label className="block text-[10px] font-bold uppercase text-stone-500 tracking-wider mb-1">Travellers</label>
-              <select className="bg-transparent text-sm font-semibold text-stone-900 focus:outline-none w-full cursor-pointer">
-                <option>Family (4-6 Persons)</option>
-                <option>Honeymoon Couple</option>
-                <option>Group (8+ Persons)</option>
-              </select>
-            </div>
-            <a
-              href={`https://wa.me/${cleanWhatsapp}?text=Hi!%20I%20am%20looking%20for%20a%20Kerala%20tour%20package.`}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center justify-center rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-sm tracking-wide transition-all shadow-md py-3.5 sm:py-0 gap-2"
-            >
-              <span>WhatsApp Inquiry</span>
-              <span>💬</span>
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* 1. HERO CAROUSEL (DYNAMIC AUTO-SLIDING SLIDES WITH STATIC INQUIRY BOX) */}
+      <HeroCarousel slides={pageData?.heroSlides} whatsappNumber={cleanWhatsapp} />
 
       {/* 2. TOP KERALA DESTINATIONS STRIP */}
       <section className="bg-white border-b border-stone-200 py-8">

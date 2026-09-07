@@ -2,6 +2,7 @@ import { post } from './post'
 import { navItem } from './objects/navItem'
 import { featureItem } from './objects/featureItem'
 import { heroSection } from './objects/heroSection'
+import { heroSlide } from './objects/heroSlide'
 import { ctaSection } from './objects/ctaSection'
 import { galleryItem } from './objects/galleryItem'
 import { itineraryDay } from './objects/itineraryDay'
@@ -13,6 +14,7 @@ export const schemaTypes = [
   landingPage,
   contactPage,
   tourPackage,
+  heroSlide,
   post,
   heroSection,
   featureItem,
