@@ -3,6 +3,9 @@ import { defineQuery, type SanityDocument } from "next-sanity";
 import Link from "next/link";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { WhatsAppIcon } from "@/components/WhatsAppIcon";
+import { TrustHighlightsBar } from "@/components/TrustHighlightsBar";
+import { InstagramPhotoGrid } from "@/components/InstagramPhotoGrid";
+import { FaqAccordion } from "@/components/FaqAccordion";
 
 const HOME_PAGE_QUERY = defineQuery(`{
   "settings": *[_type == "siteSettings"][0]{
@@ -85,7 +88,10 @@ export default async function KeralaTravelLandingPage() {
       {/* 1. HERO CAROUSEL WITH TOUCH SWIPE & MOBILE INQUIRY BOX */}
       <HeroCarousel slides={heroSlides} whatsappNumber={cleanWhatsapp} />
 
-      {/* 2. TOP KERALA DESTINATIONS */}
+      {/* 2. MODERN GLASSMORPHISM TRUST & FEATURE HIGHLIGHTS BAR */}
+      <TrustHighlightsBar />
+
+      {/* 3. TOP KERALA DESTINATIONS */}
       {destinations.length > 0 && (
         <section className="bg-white border-b border-stone-200 py-6 sm:py-8">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -243,47 +249,8 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 5. PHOTO GALLERY */}
-      {galleryItems.length > 0 && (
-        <section className="py-12 sm:py-20 bg-stone-100 border-b border-stone-200">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-14">
-              <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2">
-                Kerala Highlights
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
-                Glimpse of Kerala - God's Own Country
-              </h2>
-            </div>
-
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
-              {galleryItems.map(
-                (photo: { imageUrl: string; caption?: string; category?: string }, idx: number) => (
-                  <div
-                    key={idx}
-                    className="relative h-44 sm:h-64 rounded-xl sm:rounded-2xl overflow-hidden group shadow-md border border-stone-200"
-                  >
-                    <img
-                      src={photo.imageUrl}
-                      alt={photo.caption || "Kerala Photo"}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent opacity-90" />
-                    <div className="absolute bottom-2.5 left-2.5 right-2.5 sm:bottom-4 sm:left-4 sm:right-4 text-white">
-                      {photo.category && (
-                        <span className="inline-block text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-emerald-700 px-1.5 sm:px-2 py-0.5 rounded text-white mb-1">
-                          {photo.category}
-                        </span>
-                      )}
-                      <p className="text-xs sm:text-sm font-bold leading-snug line-clamp-2">{photo.caption}</p>
-                    </div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </section>
-      )}
+      {/* 5. INSTAGRAM-STYLE MASONRY KERALA PHOTO STORIES GRID */}
+      {galleryItems.length > 0 && <InstagramPhotoGrid photos={galleryItems} />}
 
       {/* 6. GUEST TESTIMONIALS */}
       {testimonials.length > 0 && (
@@ -334,10 +301,10 @@ export default async function KeralaTravelLandingPage() {
         </section>
       )}
 
-      {/* 7. FREQUENTLY ASKED QUESTIONS */}
+      {/* 7. INTERACTIVE ANIMATED FREQUENTLY ASKED QUESTIONS */}
       {faqs.length > 0 && (
         <section className="py-12 sm:py-20 bg-white border-t border-stone-200">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-10 sm:mb-14">
               <span className="inline-block px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[11px] sm:text-xs font-bold uppercase tracking-wider mb-2">
                 Have Questions?
@@ -345,18 +312,12 @@ export default async function KeralaTravelLandingPage() {
               <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
                 Frequently Asked Questions
               </h2>
+              <p className="text-stone-600 text-xs sm:text-sm mt-2">
+                Everything you need to know before booking your Kerala trip.
+              </p>
             </div>
 
-            <div className="space-y-4 sm:space-y-6">
-              {faqs.map((faq: { question: string; answer: string }, idx: number) => (
-                <div key={idx} className="bg-stone-50 p-4 sm:p-6 rounded-2xl border border-stone-200 space-y-1.5">
-                  <h3 className="font-bold text-stone-900 text-sm sm:text-base flex items-start gap-2">
-                    <span className="text-emerald-700 shrink-0">Q:</span> <span>{faq.question}</span>
-                  </h3>
-                  <p className="text-stone-600 text-xs leading-relaxed pl-5 sm:pl-6">{faq.answer}</p>
-                </div>
-              ))}
-            </div>
+            <FaqAccordion items={faqs} />
           </div>
         </section>
       )}

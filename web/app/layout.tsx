@@ -6,6 +6,7 @@ import { defineQuery, type SanityDocument } from "next-sanity";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppBubble } from "@/components/WhatsAppBubble";
+import { StickyMobileActionBar } from "@/components/StickyMobileActionBar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -121,10 +122,18 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           destinations={destinations}
         />
 
-        {/* Global Floating WhatsApp Bubble */}
-        <WhatsAppBubble
-          phone={cleanWhatsapp}
-          message="Hello! I am interested in Kerala tour packages and custom itineraries."
+        {/* Global Floating WhatsApp Bubble (Desktop / Tablet) */}
+        <div className="hidden md:block">
+          <WhatsAppBubble
+            phone={cleanWhatsapp}
+            message="Hello! I am interested in Kerala tour packages and custom itineraries."
+          />
+        </div>
+
+        {/* Sticky Mobile Quick-Action Bar (Mobile devices) */}
+        <StickyMobileActionBar
+          whatsappNumber={cleanWhatsapp}
+          phoneNumber={settings?.footerPhone || "+919876543210"}
         />
       </body>
     </html>
