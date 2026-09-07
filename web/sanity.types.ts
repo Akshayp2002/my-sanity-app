@@ -15,20 +15,6 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
-export type CtaSection = {
-  _type: "ctaSection";
-  title?: string;
-  description?: string;
-  buttonText?: string;
-  buttonLink?: string;
-};
-
-export type NavItem = {
-  _type: "navItem";
-  label?: string;
-  link?: string;
-};
-
 export type ItineraryDay = {
   _type: "itineraryDay";
   day?: string;
@@ -36,167 +22,10 @@ export type ItineraryDay = {
   description?: string;
 };
 
-export type GalleryItem = {
-  _type: "galleryItem";
-  imageUrl?: string;
-  caption?: string;
-  category?: string;
-};
-
-export type FeatureItem = {
-  _type: "featureItem";
-  imageUrl?: string;
-  title?: string;
-  tag?: string;
-  location?: string;
-  price?: string;
-  rating?: string;
-  description?: string;
-};
-
-export type SanityImageAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
-};
-
-export type HeroSection = {
-  _type: "heroSection";
-  badgeText?: string;
-  heading?: string;
-  highlightText?: string;
-  subheading?: string;
-  heroImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  backgroundImageUrl?: string;
-  primaryCtaText?: string;
-  primaryCtaLink?: string;
-  secondaryCtaText?: string;
-  secondaryCtaLink?: string;
-};
-
-export type SanityImageCrop = {
-  _type: "sanity.imageCrop";
-  top?: number;
-  bottom?: number;
-  left?: number;
-  right?: number;
-};
-
-export type SanityImageHotspot = {
-  _type: "sanity.imageHotspot";
-  x?: number;
-  y?: number;
-  height?: number;
-  width?: number;
-};
-
-export type Post = {
-  _id: string;
-  _type: "post";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  body?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  }>;
-};
-
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type FaqItem = {
-  _type: "faqItem";
-  question?: string;
-  answer?: string;
-};
-
-export type TestimonialItem = {
-  _type: "testimonialItem";
-  name?: string;
-  city?: string;
-  packageTitle?: string;
-  review?: string;
-  rating?: string;
-  avatar?: string;
-};
-
-export type ExperienceItem = {
-  _type: "experienceItem";
-  icon?: string;
-  title?: string;
-  description?: string;
-};
-
-export type DestinationItem = {
-  _type: "destinationItem";
-  name?: string;
-  tag?: string;
+export type NavItem = {
+  _type: "navItem";
+  label?: string;
   link?: string;
-};
-
-export type HeroSlide = {
-  _type: "heroSlide";
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  imageUrl?: string;
-  badge?: string;
-  heading?: string;
-  description?: string;
-};
-
-export type TourPackage = {
-  _id: string;
-  _type: "tourPackage";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  duration?: string;
-  location?: string;
-  price?: string;
-  imageUrl?: string;
-  highlights?: Array<string>;
-  description?: string;
-  itinerary?: Array<
-    {
-      _key: string;
-    } & ItineraryDay
-  >;
-  inclusions?: Array<string>;
-  exclusions?: Array<string>;
 };
 
 export type ContactPage = {
@@ -215,14 +44,119 @@ export type ContactPage = {
   whatsappMessagePrefix?: string;
 };
 
-export type LandingPage = {
+export type Faq = {
   _id: string;
-  _type: "landingPage";
+  _type: "faq";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  question?: string;
+  answer?: string;
+  order?: number;
+};
+
+export type Testimonial = {
+  _id: string;
+  _type: "testimonial";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  city?: string;
+  packageTitle?: string;
+  review?: string;
+  rating?: string;
+  avatar?: string;
+  order?: number;
+};
+
+export type GalleryImage = {
+  _id: string;
+  _type: "galleryImage";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  caption?: string;
+  category?: string;
+  imageUrl?: string;
+  order?: number;
+};
+
+export type Experience = {
+  _id: string;
+  _type: "experience";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  icon?: string;
+  title?: string;
+  description?: string;
+  order?: number;
+};
+
+export type TourPackage = {
+  _id: string;
+  _type: "tourPackage";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;
   slug?: Slug;
+  tag?: string;
+  location?: string;
+  price?: string;
+  rating?: string;
+  imageUrl?: string;
+  highlights?: Array<string>;
+  description?: string;
+  itinerary?: Array<
+    {
+      _key: string;
+    } & ItineraryDay
+  >;
+  inclusions?: Array<string>;
+  exclusions?: Array<string>;
+  order?: number;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type Destination = {
+  _id: string;
+  _type: "destination";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  tag?: string;
+  link?: string;
+  order?: number;
+};
+
+export type HeroSlide = {
+  _id: string;
+  _type: "heroSlide";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  badge?: string;
+  heading?: string;
+  description?: string;
+  imageUrl?: string;
+  order?: number;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
   topNotificationBar?: string;
   logoIcon?: string;
   logoText?: string;
@@ -233,54 +167,9 @@ export type LandingPage = {
       _key: string;
     } & NavItem
   >;
-  heroSlides?: Array<
-    {
-      _key: string;
-    } & HeroSlide
-  >;
-  destinationsTitle?: string;
-  destinations?: Array<
-    {
-      _key: string;
-    } & DestinationItem
-  >;
-  featuresSectionTag?: string;
-  featuresSectionTitle?: string;
-  featuresSectionSubtitle?: string;
-  features?: Array<
-    {
-      _key: string;
-    } & FeatureItem
-  >;
-  experiencesSectionTag?: string;
-  experiencesSectionTitle?: string;
-  experiences?: Array<
-    {
-      _key: string;
-    } & ExperienceItem
-  >;
-  gallerySectionTag?: string;
-  gallerySectionTitle?: string;
-  gallery?: Array<
-    {
-      _key: string;
-    } & GalleryItem
-  >;
-  testimonialsSectionTag?: string;
-  testimonialsSectionTitle?: string;
-  testimonials?: Array<
-    {
-      _key: string;
-    } & TestimonialItem
-  >;
-  faqSectionTag?: string;
-  faqSectionTitle?: string;
-  faqs?: Array<
-    {
-      _key: string;
-    } & FaqItem
-  >;
-  cta?: CtaSection;
+  ctaTitle?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
   footerAboutText?: string;
   footerOfficeAddress?: string;
   footerPhone?: string;
@@ -324,6 +213,22 @@ export type SanityImageMetadata = {
   thumbHash?: string;
   hasAlpha?: boolean;
   isOpaque?: boolean;
+};
+
+export type SanityImageHotspot = {
+  _type: "sanity.imageHotspot";
+  x?: number;
+  y?: number;
+  height?: number;
+  width?: number;
+};
+
+export type SanityImageCrop = {
+  _type: "sanity.imageCrop";
+  top?: number;
+  bottom?: number;
+  left?: number;
+  right?: number;
 };
 
 export type SanityFileAsset = {
@@ -386,29 +291,24 @@ export type Geopoint = {
 };
 
 export type AllSanitySchemaTypes =
-  | CtaSection
-  | NavItem
   | ItineraryDay
-  | GalleryItem
-  | FeatureItem
-  | SanityImageAssetReference
-  | HeroSection
-  | SanityImageCrop
-  | SanityImageHotspot
-  | Post
-  | Slug
-  | FaqItem
-  | TestimonialItem
-  | ExperienceItem
-  | DestinationItem
-  | HeroSlide
-  | TourPackage
+  | NavItem
   | ContactPage
-  | LandingPage
+  | Faq
+  | Testimonial
+  | GalleryImage
+  | Experience
+  | TourPackage
+  | Slug
+  | Destination
+  | HeroSlide
+  | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
   | SanityImageDimensions
   | SanityImageMetadata
+  | SanityImageHotspot
+  | SanityImageCrop
   | SanityFileAsset
   | SanityAssetSourceData
   | SanityImageAsset

@@ -1,9 +1,9 @@
 import { defineField, defineType } from 'sanity'
 
-export const faqItem = defineType({
-  name: 'faqItem',
+export const faq = defineType({
+  name: 'faq',
   title: 'Frequently Asked Question (FAQ)',
-  type: 'object',
+  type: 'document',
   fields: [
     defineField({
       name: 'question',
@@ -18,5 +18,18 @@ export const faqItem = defineType({
       rows: 3,
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      initialValue: 1,
+    }),
+  ],
+  orderings: [
+    {
+      title: 'Display Order',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
   ],
 })

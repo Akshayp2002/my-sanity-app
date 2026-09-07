@@ -19,19 +19,25 @@ export const tourPackage = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'duration',
-      title: 'Duration (e.g. 3 Days / 2 Nights)',
+      name: 'tag',
+      title: 'Duration Tag (e.g. 3 Days / 2 Nights)',
       type: 'string',
     }),
     defineField({
       name: 'location',
-      title: 'Destination / Region (e.g. Munnar, Alleppey, Wayanad)',
+      title: 'Destination / Region (e.g. Munnar, Kerala)',
       type: 'string',
     }),
     defineField({
       name: 'price',
       title: 'Starting Price (e.g. ₹8,500 / person)',
       type: 'string',
+    }),
+    defineField({
+      name: 'rating',
+      title: 'Rating Text (e.g. 4.98 ★ (180 reviews))',
+      type: 'string',
+      initialValue: '4.98 ★ (180 reviews)',
     }),
     defineField({
       name: 'imageUrl',
@@ -68,5 +74,18 @@ export const tourPackage = defineType({
       type: 'array',
       of: [defineArrayMember({ type: 'string' })],
     }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      initialValue: 1,
+    }),
+  ],
+  orderings: [
+    {
+      title: 'Display Order',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
   ],
 })

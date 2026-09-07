@@ -1,9 +1,9 @@
 import { defineField, defineType } from 'sanity'
 
-export const testimonialItem = defineType({
-  name: 'testimonialItem',
+export const testimonial = defineType({
+  name: 'testimonial',
   title: 'Guest Testimonial Review',
-  type: 'object',
+  type: 'document',
   fields: [
     defineField({
       name: 'name',
@@ -13,12 +13,12 @@ export const testimonialItem = defineType({
     }),
     defineField({
       name: 'city',
-      title: 'Guest City / Origin (e.g. Bangalore, Delhi)',
+      title: 'Guest City / Origin (e.g. Bangalore, Delhi, Mumbai)',
       type: 'string',
     }),
     defineField({
       name: 'packageTitle',
-      title: 'Tour Package Taken',
+      title: 'Tour Package Taken (e.g. Munnar & Alleppey Honeymoon Special)',
       type: 'string',
     }),
     defineField({
@@ -40,5 +40,18 @@ export const testimonialItem = defineType({
       type: 'string',
       initialValue: '👤',
     }),
+    defineField({
+      name: 'order',
+      title: 'Display Order',
+      type: 'number',
+      initialValue: 1,
+    }),
+  ],
+  orderings: [
+    {
+      title: 'Display Order',
+      name: 'orderAsc',
+      by: [{ field: 'order', direction: 'asc' }],
+    },
   ],
 })
